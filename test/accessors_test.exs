@@ -2,7 +2,7 @@ Code.require_file "../test_helper.exs", __FILE__
 
 defmodule AssociateTest do
   use ExUnit.Case
-  alias Nested.Associate, as: NA
+  alias Nested.Accessors, as: NA
 
   defrecord Foo, bar: nil, baz: nil
 
@@ -14,7 +14,7 @@ defmodule AssociateTest do
   end
 
   test "assoc record", setup do
-    foo = NA.assoc(setup[:foo], :bar, "barzer")
+    foo = NA.put(setup[:foo], :bar, "barzer")
     assert foo.bar == "barzer" 
   end
 
@@ -23,7 +23,7 @@ defmodule AssociateTest do
   end
 
   test "assoc tuple", setup do
-    tup = NA.assoc(setup[:tup], 1, "seconder")
+    tup = NA.put(setup[:tup], 1, "seconder")
     assert elem(tup, 1) == "seconder"
   end
 
@@ -32,11 +32,11 @@ defmodule AssociateTest do
   end
 
   test "assoc non-int tuple fails", setup do
-    catch_error(NA.assoc(setup[:tup], :wat, "notme"))
+    catch_error(NA.put(setup[:tup], :wat, "notme"))
   end
 
   test "assoc keywords list", setup do
-    words = NA.assoc(setup[:words], :two, "twoer")
+    words = NA.put(setup[:words], :two, "twoer")
     assert words[:two] == "twoer"
   end
 

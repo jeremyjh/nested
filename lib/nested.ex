@@ -1,7 +1,7 @@
 defmodule Nested do
-  import Nested.Associate
+  alias Nested.Accessors, as: NA
 
-  def assoc_in(structure, [], value) do
+  def update_in(structure, [], value) do
     value
   end
 
@@ -14,15 +14,15 @@ defmodule Nested do
     end
   end
 
-  def assoc_in(structure, [head | tail], value) when is_where?(head) do
+  def update_in(structure, [head | tail], value) when is_where?(head) do
     index = Enum.find_index(structure, head[:where])
     replace_at(structure, index, 
-      assoc_in(Enum.at!(structure, index), tail, value))
+      update_in(Enum.at!(structure, index), tail, value))
   end
 
-  def assoc_in(structure, [head | tail], value) do
-    assoc(structure, head, 
-      assoc_in(get(structure,head), tail, value))
+  def update_in(structure, [head | tail], value) do
+    NA.put(structure, head, 
+      update_in(NA.get(structure,head), tail, value))
   end
 
   defp replace_at(list, index, value) do
