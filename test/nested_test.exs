@@ -74,4 +74,13 @@ defmodule NestedTest do
     assert :dict.fetch(:work, people.phone_numbers) == "555-9191"
   end
 
+  test "where clause", setup do
+    addresses = [setup[:home], setup[:home].city "Sometown"]
+    jeremy = setup[:jeremy].address addresses
+    jeremy = assoc_in(jeremy, [:address, 
+      [where: fn (v) -> v.city == "Sometown" end], 
+      :street], "Another Street")
+    assert  Enum.at!(jeremy.address,1).street == "Another Street"
+  end
+
 end
