@@ -106,4 +106,11 @@ defmodule NestedTest do
     assert Enum.count(jeremy.phone_numbers) == 3
     assert jeremy.phone_numbers |> Enum.first == "867-5309"
   end
+
+  test "update record with function", setup do
+    work = setup[:home].city "Barter Town"
+    jeremy = update_in(setup[:jeremy], [:address], [home: setup[:home], work: work])
+    jeremy = update_in(jeremy, [:address, :work, :state], fn(v) -> String.slice(v,0,2) end)
+    assert jeremy.address[:work].state == "De"
+  end
 end
