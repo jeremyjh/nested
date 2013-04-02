@@ -99,4 +99,11 @@ defmodule NestedTest do
       :street], "Another Street")
     assert  Enum.at!(jeremy.address,1).street == "Another Street"
   end
+
+  test "prepend to list", setup do
+    jeremy = setup[:jeremy].phone_numbers ["555-9191", "555-1234"]
+    jeremy = update_in(jeremy,[:phone_numbers, []], "867-5309")
+    assert Enum.count(jeremy.phone_numbers) == 3
+    assert jeremy.phone_numbers |> Enum.first == "867-5309"
+  end
 end
