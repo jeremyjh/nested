@@ -60,8 +60,19 @@ defimpl Nested.Accessors, for: List do
     Keyword.put(words, key, value)
   end
 
+  #for index addressed lists - replace respecting position
+  def put(list, index, value) when is_integer(index) do
+    {first, second} = Enum.split(list, index)
+    first ++ [value] ++ Enum.drop(second, 1)
+  end
+
   # for Keywords or orddict
   def get(words, key) when is_atom(key) do
     Keyword.get(words,key)
+  end
+
+  #for index addressed lists
+  def get(list, index) when is_integer(index) do
+    Enum.at! list, index
   end
 end

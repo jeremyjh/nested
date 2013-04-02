@@ -74,13 +74,29 @@ defmodule NestedTest do
     assert :dict.fetch(:work, people.phone_numbers) == "555-9191"
   end
 
-  test "where clause", setup do
-    addresses = [setup[:home], setup[:home].city "Sometown"]
+  test "where clause find first", setup do
+    addresses = [setup[:home].city("Sometown"), setup[:home] ]
+    jeremy = setup[:jeremy].address addresses
+    jeremy = update_in(jeremy, [:address, 
+      [where: fn (v) -> v.city == "Sometown" end], 
+      :street], "Another Street")
+    assert  Enum.at!(jeremy.address,0).street == "Another Street"
+  end
+  test "where clause find last", setup do
+    addresses = [setup[:home], setup[:home].city("Someother"), setup[:home].city "Sometown"]
+    jeremy = setup[:jeremy].address addresses
+    jeremy = update_in(jeremy, [:address, 
+      [where: fn (v) -> v.city == "Sometown" end], 
+      :street], "Another Street")
+    assert  Enum.at!(jeremy.address,2).street == "Another Street"
+  end
+
+  test "where clause find middle", setup do
+    addresses = [setup[:home], setup[:home].city("Sometown"), setup[:home].city("Someother")]
     jeremy = setup[:jeremy].address addresses
     jeremy = update_in(jeremy, [:address, 
       [where: fn (v) -> v.city == "Sometown" end], 
       :street], "Another Street")
     assert  Enum.at!(jeremy.address,1).street == "Another Street"
   end
-
 end
