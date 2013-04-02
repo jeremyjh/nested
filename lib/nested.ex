@@ -27,28 +27,44 @@ defmodule Nested do
   """
   alias Nested.Accessors, as: NA
 
+  def put_in(structure,fields,value) do
+    do_update_in(structure,fields,value, false)
+  end
+
+  def update_in(structure,fields,func) when is_function(func) do
+    do_update_in(structure,fields,func, true)
+  end
+
+  def get_in(structure, [field | []]) do
+    NA.get(structure,field)
+  end
+
+  def get_in(structure, [field | tail]) do
+    get_in(NA.get(structure,field), tail)
+  end
+
   # passing a [where: func] in fields will find_index
-  def update_in(structure, [field | rest], value) 
+  defp do_update_in(structure, [field | rest], value, is_update) 
     when is_list(field) and is_tuple(hd(field)) and elem(hd(field),0) == :where do
     index = Enum.find_index(structure, field[:where])
     indices = [index] ++ rest
-    update_in(structure, indices, value )
+    do_update_in(structure, indices, value, is_update)
   end
 
   # passing [] as last field means prepend to list
-  def update_in(list, [[]], value) when is_list(list), do: [value] ++ list
+  defp do_update_in(list, [[]], value, false) when is_list(list), do: [value] ++ list
 
   # apply function value
-  def update_in(structure, [field | []], func) when is_function(func) do
+  defp do_update_in(structure, [field | []], func, true) do
     NA.update(structure, field, func)
   end
 
   # typical entry point
-  def update_in(structure, [field | rest], value) do
+  defp do_update_in(structure, [field | rest], value, is_update)  do
     NA.put(structure, field, 
-      update_in(NA.get(structure,field), rest, value))
+      do_update_in(NA.get(structure,field), rest, value, is_update))
   end
 
   # all done
-  def update_in(_, [], value), do: value
+  defp do_update_in(_, [], value, false), do: value
 end
