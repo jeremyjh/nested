@@ -11,6 +11,10 @@
     * HashDict
     * Erlang's :dict and :orddict
    
+
+  You can easily implement the Nested.Accessors protocol to support other structures. See the accessors.ex for examples.
+
+
   List of fields - list of symbols / indices in update path
   
     * for Records, an atom  must indicate accessor e.g. :name for Person.name 

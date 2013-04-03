@@ -3,7 +3,6 @@ defprotocol Nested.Accessors do
   def put(structure, field, value)
   def get(structure, field)
   def update(structure, field, func)
-  #def update(structure, index, value)
 end
 
 defimpl Nested.Accessors, for: HashDict do
