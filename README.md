@@ -1,15 +1,18 @@
 # Nested
 
-  Updates a hierarchy of heterogeneous record/collection types, given a Structure,
-  a list of Fields and a value (or update function)
-  Structure to modify can be any hierarchy/combination of:
-    * Records
+  Updates a hierarchy of heterogeneous record/collection types, given a Structure,a list of Fields and a value (or update function).
+  
+  
+  Structure can be any hierarchy/combination of:
+  
+    * Records    
     * Lists
     * Tuples
     * HashDict
     * Erlang's :dict and :orddict
    
   List of fields - list of symbols / indices in update path
+  
     * for Records, an atom  must indicate accessor e.g. :name for Person.name 
     * for dictionaries, whatever key value
     * for Tuples, a 0-based ordinal
