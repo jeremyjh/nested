@@ -12,7 +12,7 @@
     * Erlang's :dict and :orddict
    
 
-  You can easily implement the Nested.Accessors protocol to support other structures. See the accessors.ex for examples.
+  You can easily implement the Nested.Accessors protocol to support other structures. See [accessors.ex](lib/accessors.ex) for examples.
 
 
   List of fields - list of symbols / indices in update path
@@ -28,7 +28,8 @@
   Update value can be a function - in that case a record update_ accessor or Dict.update will
   be called as appropriate.
 
-  ## Examples 
+## Examples 
+
 ```elixir
 
         import Nested
@@ -71,4 +72,4 @@
         IO.puts get_in library, [:books, :first, :author, :address, :street] # 101 First Street
 ```
 
-For more examples take a look at nested_test.exs.
+For more examples take a look at [the tests](test/nested_test.exs).
