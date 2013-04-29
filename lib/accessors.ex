@@ -36,7 +36,7 @@ defimpl Nested.Accessors, for: Tuple do
 
   # for arbitrary tuples
   def put(tuple, index, value) when is_integer(index) do
-    setelem(tuple, index, value)
+    set_elem(tuple, index, value)
   end
 
   # for :dicts 
@@ -72,7 +72,7 @@ defimpl Nested.Accessors, for: Tuple do
   # for arbitrary tuples
   def update(tuple, index, func) when is_integer(index) do
     old_value = get(tuple, index)
-    setelem(tuple, index, func.(old_value))
+    set_elem(tuple, index, func.(old_value))
   end
 end
 
