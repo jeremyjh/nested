@@ -2,18 +2,22 @@ defmodule Nested do
   @moduledoc """
   Updates a hierarchy of heterogeneous record/collection types, given a Structure,
   a list of Fields and a value (or update function)
+
   Structure to modify can be any hierarchy/combination of:
+
     * Records
     * Lists
     * Tuples
     * HashDict
     * Erlang's :dict and :orddict
    
-  List of fields - list of symbols / indices in update path
+  List of fields - list of symbols / indices in update path:
+
     * for Records, an atom  must indicate accessor e.g. :name for Person.name 
     * for dictionaries, whatever key value
     * for Tuples, a 0-based ordinal
-    * for Lists: 
+    * for Lists:
+
       * atom (for Keyword list)
       * integer for ordinal position (position in list is preserved!)
       * [] - empty list (as last field) means prepend to list
