@@ -4,6 +4,8 @@ defmodule NestedTest do
   use ExUnit.Case
   import Nested
 
+  doctest Nested
+
   defrecord Address, street: nil, city: nil, state: nil
   defrecord Person, first_name: nil, last_name: nil, address: nil, phone_numbers: nil
 
