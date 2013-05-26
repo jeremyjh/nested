@@ -23,7 +23,7 @@ end
 defimpl Nested.Accessors, for: Tuple do
   
   #for :dicts
-  def put(dict, key, value) 
+  def put(dict, key, value)
     when is_record(dict) and elem(dict, 0) == :dict  do
     :dict.store(key, value, dict)
   end
@@ -95,7 +95,7 @@ defimpl Nested.Accessors, for: List do
 
   #for index addressed lists
   def get(list, index) when is_integer(index) do
-    Enum.at! list, index
+    Enum.fetch!(list, index)
   end
 
   # for Keywords or orddict

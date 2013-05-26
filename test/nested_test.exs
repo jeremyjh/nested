@@ -4,10 +4,11 @@ defmodule NestedTest do
   use ExUnit.Case
   import Nested
 
-  doctest Nested
 
   defrecord Address, street: nil, city: nil, state: nil
   defrecord Person, first_name: nil, last_name: nil, address: nil, phone_numbers: nil
+
+  doctest Nested
 
   setup do
     {:ok, 
@@ -82,7 +83,7 @@ defmodule NestedTest do
     jeremy = put_in(jeremy, [:address, 
       [where: fn (v) -> v.city == "Sometown" end], 
       :street], "Another Street")
-    assert  Enum.at!(jeremy.address,0).street == "Another Street"
+    assert  Enum.fetch!(jeremy.address,0).street == "Another Street"
   end
   test "where clause find last", setup do
     addresses = [setup[:home], setup[:home].city("Someother"), setup[:home].city "Sometown"]
@@ -90,7 +91,7 @@ defmodule NestedTest do
     jeremy = put_in(jeremy, [:address, 
       [where: fn (v) -> v.city == "Sometown" end], 
       :street], "Another Street")
-    assert  Enum.at!(jeremy.address,2).street == "Another Street"
+    assert  Enum.fetch!(jeremy.address,2).street == "Another Street"
   end
 
   test "where clause find middle", setup do
@@ -99,7 +100,7 @@ defmodule NestedTest do
     jeremy = put_in(jeremy, [:address, 
       [where: fn (v) -> v.city == "Sometown" end], 
       :street], "Another Street")
-    assert  Enum.at!(jeremy.address,1).street == "Another Street"
+    assert  Enum.fetch!(jeremy.address,1).street == "Another Street"
   end
 
   test "prepend to list", setup do

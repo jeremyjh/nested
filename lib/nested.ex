@@ -81,9 +81,9 @@ defmodule Nested do
       iex> put_in([parent: [child: [value: ""]]], [:parent, :child, :value], "something")
       [parent: [child: [value: "something"]]]           
 
-      iex> defrecord Address, street: nil, city: nil, state: nil
-      ...> defrecord Person, first_name: nil, last_name: nil, address: nil, phone_numbers: nil
-      ...> home = Address.new(street: "101 First Street", city: "Anytown", state: "Denial")
+         > defrecord Address, street: nil, city: nil, state: nil
+         > defrecord Person, first_name: nil, last_name: nil, address: nil, phone_numbers: nil
+      iex> home = Address.new(street: "101 First Street", city: "Anytown", state: "Denial")
       ...> jeremy = Person.new(first_name: "Jeremy", last_name: "Huffman", address: home, phone_numbers: ["867-5309"])
       ...> jeremy = put_in(jeremy, [:address, :state], "SC")
       ...> jeremy.address.state
