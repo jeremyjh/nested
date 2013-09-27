@@ -14,24 +14,24 @@ defimpl Nested.Accessors, for: HashDict do
     Dict.get(dict,key)
   end
 
-  def update(dict, key, func) do
-    Dict.update(dict, key, func)
+  def update(dict, key, initial, func) do
+    Dict.update!(dict, key, func)
   end
 end
 
 
 defimpl Nested.Accessors, for: Tuple do
-  
+
   #for :dicts
   def put(dict, key, value)
     when is_record(dict) and elem(dict, 0) == :dict  do
     :dict.store(key, value, dict)
   end
-  
+
   # for Records
   def put(record, attribute, value) when is_record(record) do
     module = elem(record,0)
-    apply(module, attribute, [value, record])  
+    apply(module, attribute, [value, record])
   end
 
   # for arbitrary tuples
@@ -39,7 +39,7 @@ defimpl Nested.Accessors, for: Tuple do
     set_elem(tuple, index, value)
   end
 
-  # for :dicts 
+  # for :dicts
   def get(dict, key)
     when is_record(dict) and elem(dict, 0) == :dict  do
     :dict.fetch(key, dict)
@@ -57,7 +57,7 @@ defimpl Nested.Accessors, for: Tuple do
   end
 
   #for :dicts
-  def update(dict, key, func) 
+  def update(dict, key, func)
     when is_record(dict) and elem(dict, 0) == :dict  do
     :dict.update(key, func, dict)
   end
@@ -66,7 +66,7 @@ defimpl Nested.Accessors, for: Tuple do
   def update(record, accessor, func) when is_record(record) do
     module = elem(record,0)
     update_acc = list_to_atom('update_' ++ atom_to_list(accessor))
-    apply(module, update_acc, [func, record])  
+    apply(module, update_acc, [func, record])
   end
 
   # for arbitrary tuples
@@ -100,7 +100,7 @@ defimpl Nested.Accessors, for: List do
 
   # for Keywords or orddict
   def update(words, key, func) when is_atom(key) do
-    Keyword.update(words, key, func)
+    Keyword.update!(words, key, func)
   end
 
   #for index addressed lists - replace respecting position

@@ -10,10 +10,10 @@ defmodule Nested do
     * Tuples
     * HashDict
     * Erlang's :dict and :orddict
-   
+
   List of fields - list of symbols / indices in update path:
 
-    * for Records, an atom  must indicate accessor e.g. :name for Person.name 
+    * for Records, an atom  must indicate accessor e.g. :name for Person.name
     * for dictionaries, whatever key value
     * for Tuples, a 0-based ordinal
     * for Lists:
@@ -25,8 +25,8 @@ defmodule Nested do
   Update value can be a function - in that case a record update_ accessor or Dict.update will
   be called as appropriate.
 
-  ## Examples 
-  
+  ## Examples
+
         import Nested
 
         defrecord Address, street: nil, city: nil, state: nil
@@ -37,7 +37,7 @@ defmodule Nested do
 
         #simplest case - set a value in a nested record
         jeremy = put_in(jeremy, [:address, :state], "SC")
-        
+
         IO.puts jeremy.address.state # "SC"
 
         #A hierarchy can be arbitrarily deep
@@ -75,11 +75,11 @@ defmodule Nested do
   fields is a list of atoms and/or indexes which provide the path and attribute to update.
 
   See moduledoc for list of structure types and more examples.
-  
+
   ## Examples
-      
+
       iex> put_in([parent: [child: [value: ""]]], [:parent, :child, :value], "something")
-      [parent: [child: [value: "something"]]]           
+      [parent: [child: [value: "something"]]]
 
          > defrecord Address, street: nil, city: nil, state: nil
          > defrecord Person, first_name: nil, last_name: nil, address: nil, phone_numbers: nil
@@ -95,16 +95,16 @@ defmodule Nested do
   end
 
   @doc """
-  update value with provided functino in the designated path in the structure.
+  update value with provided function in the designated path in the structure.
   fields is a list of atoms and/or indexes which provide the path and attribute to update.
   func is a function which will receive one parameter containing the value to be updated
 
   ## Examples
-      
-      iex> update_in([parent: HashDict.new([child: [age: 5]])], 
-      ...>        [:parent, :child, :age], 
-      ...>        &1 + 1)
-      [parent: {HashDict,1,[child: [age: 6]]}]
+
+      iex> update_in([parent: [child: [age: 5]]],
+      ...>        [:parent, :child, :age],
+      ...>        &(&1 + 1))
+      [parent: [child: [age: 6]]]
 
   """
   def update_in(structure,fields,func) when is_function(func) do
@@ -117,7 +117,7 @@ defmodule Nested do
   a hierarchy of heterogenous structures.
 
   ## Examples
-      
+
       iex> get_in([parent: [child: {"one", "two"}]], [:parent, :child, 1])
       "two"
 
@@ -130,7 +130,7 @@ defmodule Nested do
   end
 
   # passing a [where: func] in fields will find_index
-  defp do_update_in(structure, [field | rest], value, is_update) 
+  defp do_update_in(structure, [field | rest], value, is_update)
     when is_list(field) and is_tuple(hd(field)) and elem(hd(field),0) == :where do
     index = Enum.find_index(structure, field[:where])
     indices = [index] ++ rest
@@ -147,7 +147,7 @@ defmodule Nested do
 
   # typical entry point
   defp do_update_in(structure, [field | rest], value, is_update)  do
-    NA.put(structure, field, 
+    NA.put(structure, field,
       do_update_in(NA.get(structure,field), rest, value, is_update))
   end
 
