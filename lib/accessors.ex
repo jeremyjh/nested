@@ -14,7 +14,7 @@ defimpl Nested.Accessors, for: HashDict do
     Dict.get(dict,key)
   end
 
-  def update(dict, key, initial, func) do
+  def update(dict, key, func) do
     Dict.update!(dict, key, func)
   end
 end
