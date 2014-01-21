@@ -35,7 +35,7 @@ defmodule NestedExamples do
     #IO.inspect library[:librarian].phone_numbers # ["867-5309","555-9191"]
 
     #we can use update functions from records and dicts (and a fake one for lists)
-    library = update_in(library, [:books, :first, :isbn], &1 + 1)
+    library = update_in(library, [:books, :first, :isbn], &(&1 + 1))
 
     #IO.puts library[:books][:first][:isbn] # 13
 

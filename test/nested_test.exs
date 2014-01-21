@@ -1,4 +1,4 @@
-Code.require_file "../test_helper.exs", __FILE__
+Code.require_file "../test_helper.exs", __ENV__.file
 
 defmodule NestedTest do
   use ExUnit.Case
@@ -107,7 +107,7 @@ defmodule NestedTest do
     jeremy = setup[:jeremy].phone_numbers ["555-9191", "555-1234"]
     jeremy = put_in(jeremy,[:phone_numbers, []], "867-5309")
     assert Enum.count(jeremy.phone_numbers) == 3
-    assert jeremy.phone_numbers |> Enum.first == "867-5309"
+    assert jeremy.phone_numbers |> List.first == "867-5309"
   end
 
   test "update record with function", setup do
