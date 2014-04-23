@@ -7,16 +7,17 @@ defmodule AccessorTest do
   defrecord Foo, bar: nil, baz: nil
 
   setup do
-    {:ok, 
-     foo: Foo.new(bar: "bar", baz: "baz"), 
+    {:ok,
+     foo: Foo.new(bar: "bar", baz: "baz"),
      tup:  {"first", "second"},
      words: [one: "one", two: "two"],
+     map: %{:bar => "bar", :baz => "baz"},
      func: fn(v) -> String.slice(v,0,2)end}
   end
 
   test "put record", setup do
     foo = NA.put(setup[:foo], :bar, "barzer")
-    assert foo.bar == "barzer" 
+    assert foo.bar == "barzer"
   end
 
   test "get from record", setup do
@@ -25,7 +26,7 @@ defmodule AccessorTest do
 
   test "update record", setup do
     foo = NA.update(setup[:foo], :bar, setup[:func])
-    assert foo.bar == "ba" 
+    assert foo.bar == "ba"
   end
 
   test "put tuple", setup do
@@ -34,7 +35,7 @@ defmodule AccessorTest do
   end
 
   test "get from tuple", setup do
-    assert NA.get(setup[:tup], 1) == "second" 
+    assert NA.get(setup[:tup], 1) == "second"
   end
 
   test "update tuple", setup do
@@ -55,4 +56,17 @@ defmodule AccessorTest do
     assert NA.get(setup[:words], :one) == "one"
   end
 
+  test "put map", setup do
+    map = NA.put(setup[:map], :bar, "barzer")
+    assert map.bar == "barzer"
+  end
+
+  test "get from map", setup do
+    assert NA.get(setup[:map], :bar) == "bar"
+  end
+
+  test "update map", setup do
+    map = NA.update(setup[:map], :bar, setup[:func])
+    assert map.bar == "ba"
+  end
 end

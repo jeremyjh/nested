@@ -11,9 +11,10 @@ defmodule NestedTest do
   doctest Nested
 
   setup do
-    {:ok, 
-     jeremy: Person.new(first_name: "Jeremy", last_name: "Huffman"), 
+    {:ok,
+     jeremy: Person.new(first_name: "Jeremy", last_name: "Huffman"),
      home: Address.new(street: "101 First Street", city: "Anytown", state: "Denial"),
+     map: %{:first_name => "Jeremy", :last_name => "Huffman"},
      tup:  {"first", "second"},
      words: [one: "one", two: "two"]}
   end
@@ -113,6 +114,13 @@ defmodule NestedTest do
   test "update record with function", setup do
     work = setup[:home].city "Barter Town"
     jeremy = put_in(setup[:jeremy], [:address], [home: setup[:home], work: work])
+    jeremy = update_in(jeremy, [:address, :work, :state], fn(v) -> String.slice(v,0,2) end)
+    assert jeremy.address[:work].state == "De"
+  end
+
+  test "update map with function", setup do
+    work = setup[:home].city "Barter Town"
+    jeremy = put_in(setup[:map], [:address], [home: setup[:home], work: work])
     jeremy = update_in(jeremy, [:address, :work, :state], fn(v) -> String.slice(v,0,2) end)
     assert jeremy.address[:work].state == "De"
   end
