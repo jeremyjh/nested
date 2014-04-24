@@ -1,11 +1,11 @@
 defprotocol Nested.Accessors do
-  @only [Record, Tuple, List]
+  @only [Record, Tuple, List, Map]
   def put(structure, field, value)
   def get(structure, field)
   def update(structure, field, func)
 end
 
-defimpl Nested.Accessors, for: HashDict do
+defimpl Nested.Accessors, for: [HashDict, Map] do
   def put(dict, key, value) do
     Dict.put(dict, key, value)
   end
