@@ -3,7 +3,8 @@ defmodule Nested.Mixfile do
 
   def project do
     [ app: :nested,
-      version: "0.1.0",
+      version: "0.1.5",
+      elixir: ">= 0.13.0 and <= 0.14.0",
       deps: deps ]
   end
 

@@ -1,3 +1,7 @@
+# Notice - deprecated
+
+Please note that as of v0.14.0 Elixir provides nested data structure access as part of the standard library. Nested will not be maintained further, and will not compile on v.0.14 or later due to name conflicts.
+
 # Nested
 
   Updates a hierarchy of heterogeneous record/collection types, given a Structure,a list of Fields and a value (or update function).
